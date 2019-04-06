@@ -1,0 +1,15 @@
+{
+  "defaultSeverity": "warning",
+  "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "no-implicit-dependencies": false,
+    "prettier": [true],
+    "no-submodule-imports": false,
+    "max-line-length": [true, 150],
+    "semicolon": [true, "always"],
+    "no-console": false,
+    "no-object-literal-type-assertion": false,
+    "interface-name":false
+  }
+}
