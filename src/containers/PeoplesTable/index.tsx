@@ -11,6 +11,7 @@ import TableHeader from '../../components/TableHeader';
 import TableToolbar from '../../components/ToolBar';
 import { sortTable, getSelectedItemsCount } from '../../utils/tableUtils';
 import { data } from '../../constants/tempConstValues';
+import AddRow from '../../components/AddRow';
 
 interface EnhancedTableState {
   order: string;
@@ -20,6 +21,7 @@ interface EnhancedTableState {
   rowsPerPage: number;
   isAllSelected: boolean;
   isOneChecked: boolean;
+  nextRowId: number;
 }
 
 class EnhancedTable extends React.Component<{}, EnhancedTableState> {
@@ -31,6 +33,7 @@ class EnhancedTable extends React.Component<{}, EnhancedTableState> {
     rowsPerPage: 5,
     isAllSelected: false,
     isOneChecked: false,
+    nextRowId: data[data.length - 1].id + 1,
   };
 
   handleRequestSort = (event: any, property: OrderByTypes) => {
@@ -75,61 +78,80 @@ class EnhancedTable extends React.Component<{}, EnhancedTableState> {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  onAddRow = (info: People) => {
+    let newData = this.state.data;
+    newData.push(info);
+    this.setState({
+      data: newData,
+      nextRowId: newData[newData.length - 1].id + 1,
+    });
+  };
+
+  onDeleteRowClick = () => {
+    const newData = this.state.data.filter(item => !item.isSelected);
+    this.setState({
+      data: newData,
+    });
+  };
+
   render() {
     const { data, order, orderBy, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
-      <Paper className={`classes.root`}>
-        <TableToolbar numSelected={getSelectedItemsCount(data)} />
-        <div className={`classes.tableWrapper`}>
-          <Table className={`classes.table`} aria-labelledby="tableTitle">
-            <TableHeader
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={this.handleSelectAllClick}
-              onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
-              isAllSelected={this.state.isAllSelected}
-              isOneChecked={this.state.isOneChecked}
-            />
-            <TableBody>
-              {sortTable(data, this.state.order, this.state.orderBy)
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((n: People) => {
-                  return (
-                    <TableRowInfo
-                      key={n.id}
-                      isSelected={n.isSelected}
-                      info={n}
-                      handleClick={this.handleClick}
-                    />
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
-      </Paper>
+      <div>
+        <Paper className={`classes.root`}>
+          <TableToolbar numSelected={getSelectedItemsCount(data)} onDeleteClick={this.onDeleteRowClick} />
+          <div className={`classes.tableWrapper`}>
+            <Table className={`classes.table`} aria-labelledby="tableTitle">
+              <TableHeader
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={this.handleSelectAllClick}
+                onRequestSort={this.handleRequestSort}
+                rowCount={data.length}
+                isAllSelected={this.state.isAllSelected}
+                isOneChecked={this.state.isOneChecked}
+              />
+              <TableBody>
+                {sortTable(data, this.state.order, this.state.orderBy)
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((n: People) => {
+                    return (
+                      <TableRowInfo
+                        key={n.id}
+                        isSelected={n.isSelected}
+                        info={n}
+                        handleClick={this.handleClick}
+                      />
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 49 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            backIconButtonProps={{
+              'aria-label': 'Previous Page',
+            }}
+            nextIconButtonProps={{
+              'aria-label': 'Next Page',
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+        </Paper>
+        <AddRow id={this.state.nextRowId} onAdd={this.onAddRow} />
+      </div>
     );
   }
 }

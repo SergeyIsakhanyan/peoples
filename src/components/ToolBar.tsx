@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 interface TableToolbarProps {
   numSelected: number;
+  onDeleteClick: () => void;
 }
 
 class TableToolbar extends React.PureComponent<TableToolbarProps> {
@@ -32,7 +33,7 @@ class TableToolbar extends React.PureComponent<TableToolbarProps> {
         <div className={`actions`}>
           {this.props.numSelected > 0 ? (
             <Tooltip title="Delete">
-              <IconButton aria-label="Delete">
+              <IconButton aria-label="Delete" onClick={this.props.onDeleteClick}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
