@@ -2,6 +2,7 @@ import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import { TableCell, Checkbox } from '@material-ui/core';
 import { People } from '../types/people';
+import moment from 'moment';
 
 interface TableRowProps {
   isSelected: boolean;
@@ -31,7 +32,7 @@ class TableRowInfo extends React.PureComponent<TableRowProps> {
         </TableCell>
         <TableCell align="left">{this.props.info.name}</TableCell>
         <TableCell align="left">{this.props.info.surname}</TableCell>
-        <TableCell align="left">{this.props.info.birthday}</TableCell>
+        <TableCell align="left">{moment().diff(this.props.info.birthday, 'years')}</TableCell>
       </TableRow>
     );
   }
