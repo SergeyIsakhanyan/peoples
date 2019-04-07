@@ -19,15 +19,13 @@ class TableRowInfo extends React.PureComponent<TableRowProps> {
     return (
       <TableRow
         hover
-        onClick={this.handleClick}
         role="checkbox"
         aria-checked={this.props.isSelected}
         tabIndex={-1}
         key={this.props.info.id}
         selected={this.props.isSelected}
-        onDoubleClick={() => console.log('double click')}
       >
-        <TableCell padding="checkbox">
+        <TableCell padding="checkbox" onClick={this.handleClick}>
           <Checkbox checked={this.props.isSelected} />
         </TableCell>
         <TableCell align="left">{this.props.info.name}</TableCell>
