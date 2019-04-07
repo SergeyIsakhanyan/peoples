@@ -10,3 +10,12 @@ export const sortTable = (arr: People[], type: string, orderBy: OrderByTypes) =>
 export const getSelectedItemsCount = (data: People[]) => {
   return data.filter(item => item.isSelected).length;
 };
+
+export const getNextElId = (arr: People[]) => {
+  if (!arr.length) {
+    return 0;
+  } else {
+    let elWithMaxId = arr.reduce((a, b) => (Math.max(a.id, b.id) ? b : a));
+    return elWithMaxId.id + 1;
+  }
+};

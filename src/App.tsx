@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import './App.css';
-import EnhancedTable from './containers/PeoplesTable/index';
+import { Provider } from 'react-redux';
+import { createHashHistory } from 'history';
+import { configureStore } from './store/configureStore';
+import { ConnectedRouter } from 'react-router-redux';
+import { LayoutContainer } from './containers/LayoutContainer';
+
+const history = createHashHistory();
+export const store = configureStore(history);
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <EnhancedTable />
-      </div>
+      <Provider store={store}>
+        <ConnectedRouter history={history} store={store}>
+          <LayoutContainer />
+        </ConnectedRouter>
+      </Provider>
     );
   }
 }
