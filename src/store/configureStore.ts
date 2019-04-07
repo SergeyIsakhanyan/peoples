@@ -7,6 +7,7 @@ import userDataWatcher from '../containers/UserData/sagas';
 import { all } from 'redux-saga/effects';
 import { routerMiddleware, RouterState, routerReducer } from 'react-router-redux';
 import { History } from 'history';
+import { createStateSyncMiddleware, initStateWithPrevTab, withReduxStateSync } from 'redux-state-sync';
 
 const STATE_KEY = '@ppl/ppl-web-app/v-1';
 const STATE_REFRESH = 1000;
@@ -21,6 +22,10 @@ const reducers = combineReducers<StoreState>({
   userData: userDataReducer,
 });
 
+const config = {
+  broadcastChannelOption: { type: 'localstorage' },
+};
+
 function* sagas() {
   yield all([userDataWatcher()]);
 }
@@ -31,9 +36,11 @@ export function configureStore(history: History): Store<StoreState> {
   const persistedState = localStore.loadState<StoreState>(STATE_KEY);
   // @ts-ignore
   const store = createStore<StoreState>(
-    reducers,
+    withReduxStateSync(reducers),
     persistedState,
-    composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddleware(history)))
+    composeEnhancers(
+      applyMiddleware(sagaMiddleware, routerMiddleware(history), createStateSyncMiddleware(config))
+    )
   );
   store.subscribe(
     throttle(() => {
@@ -41,6 +48,7 @@ export function configureStore(history: History): Store<StoreState> {
     }, STATE_REFRESH)
   );
   sagaMiddleware.run(sagas);
+  initStateWithPrevTab(store);
   return store;
 }
 
