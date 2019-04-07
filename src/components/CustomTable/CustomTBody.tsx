@@ -12,6 +12,7 @@ export interface CustomTBodyProps {
   rowsPerPage: number;
   emptyRows: number;
   handleClick: (id: number) => void;
+  onCellChange: (info: People) => void;
 }
 
 export default class CustomTBody extends React.PureComponent<CustomTBodyProps> {
@@ -28,6 +29,7 @@ export default class CustomTBody extends React.PureComponent<CustomTBodyProps> {
                 isSelected={n.isSelected}
                 info={n}
                 handleClick={this.props.handleClick}
+                onCellChange={this.props.onCellChange}
               />
             );
           })}

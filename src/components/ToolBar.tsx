@@ -3,6 +3,7 @@ import { Toolbar, Typography, Tooltip, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import classNames from 'classnames';
+import '../styles/Toolbar.scss';
 
 interface TableToolbarProps {
   numSelected: number;

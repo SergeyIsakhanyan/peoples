@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import { Provider } from 'react-redux';
 import { createHashHistory } from 'history';
 import { configureStore } from './store/configureStore';
