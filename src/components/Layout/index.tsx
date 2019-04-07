@@ -17,11 +17,9 @@ export default class Layout extends Component<ILayoutProps, {}> {
 
   public render() {
     return (
-      <div className="App">
-        <Switch>
-          <Route exact={true} path={ROUTES.Home} component={AppContentContainer} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact={true} path={ROUTES.Home} component={AppContentContainer} />
+      </Switch>
     );
   }
 }

@@ -1,0 +1,9 @@
+div.root {
+  &.highlight {
+    background-color: #fbe0ea;
+  }
+  .actions {
+    position: absolute;
+    right: 10px;
+  }
+}

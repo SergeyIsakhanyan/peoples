@@ -108,6 +108,10 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
     });
   };
 
+  onCellChange = (info: People) => {
+    this.props.updatePersonData(info);
+  };
+
   render() {
     const data = this.props.data;
     const { order, orderBy, rowsPerPage, page } = this.state;
@@ -136,6 +140,7 @@ class DataTable extends React.Component<DataTableProps, DataTableState> {
                 rowsPerPage={this.state.rowsPerPage}
                 emptyRows={emptyRows}
                 handleClick={this.handleClick}
+                onCellChange={this.onCellChange}
               />
             </Table>
           </div>

@@ -18,9 +18,9 @@ function* removePerson() {
 
 function* updateInfo(action: IUpdatePersonInfo) {
   let data: People[] = yield select((state: StoreState) => state.userData.data);
-  let person = data.find(item => item.id === action.payload.info.id);
-  if (person) {
-    person = { ...action.payload.info };
+  let personIndex = data.findIndex(item => item.id === action.payload.info.id);
+  if (personIndex !== -1) {
+    data[personIndex] = { ...action.payload.info };
   }
   yield put(UserDataActions.saveData([...data]));
 }

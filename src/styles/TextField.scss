@@ -1,0 +1,16 @@
+.text-field {
+  div, div:hover {
+    &:after, &:before {
+      border-bottom-width: 0 !important;
+    }
+  }
+  &.editing {
+    border: 1px solid;
+    padding: 0 5px;
+    width: auto;
+  }
+}
+
+td.cell {
+  font-size: 16px;
+}
